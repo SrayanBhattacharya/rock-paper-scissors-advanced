@@ -13,11 +13,36 @@ function getCompChoice() {
     return choices[Math.floor(Math.random() * 3)];
 }
 
+function convert(choice) {
+    if (choice == "r") return "Rock";
+    if (choice == "p") return "Paper";
+    if (choice == "s") return "Scissors";
+}
+
 function wins(user, comp) {
     userScore++;
     userScore_span.innerHTML = userScore;
     compScore_span.innerHTML = compScore;
-    result_p.innerHTML = user + " beats " + comp + " . You Win!";
+    result_p.innerHTML = convert(user) + " beats " + convert(comp) + ". You Win!";
+    document.getElementById(user).classList.add("green-glow");
+    setTimeout(() => document.getElementById(user).classList.remove("green-glow"), 300);
+}
+
+function loose(user, comp) {
+    compScore++;
+    userScore_span.innerHTML = userScore;
+    compScore_span.innerHTML = compScore;
+    result_p.innerHTML = convert(comp) + " beats " + convert(user) + ". You Loose!";
+    document.getElementById(user).classList.add("red-glow");
+    setTimeout(() => document.getElementById(user).classList.remove("red-glow"), 300);
+}
+
+function draw(user, comp) {
+    userScore_span.innerHTML = userScore;
+    compScore_span.innerHTML = compScore;
+    result_p.innerHTML = convert(comp) + " equals " + convert(user) + ". Its a Draw!";
+    document.getElementById(user).classList.add("gray-glow");
+    setTimeout(() => document.getElementById(user).classList.remove("gray-glow"), 300);
 }
 
 function game(userChoice) { 
@@ -32,29 +57,23 @@ function game(userChoice) {
         case "rp":
         case "ps":
         case "sr":
-            loose();
+            loose(userChoice, compChoice);
             break;
         
         case "rr":
         case "pp":
         case "ss":
-            draw();
+            draw(userChoice, compChoice);
             break;
     }
 }
 
 function main() {
-    rock_button.addEventListener("click", function() {
-        game("r");
-    })
+    rock_button.addEventListener("click", () => game("r"));
 
-    paper_button.addEventListener("click", function() {
-        game("p");
-    })
+    paper_button.addEventListener("click", () => game("p"));
 
-    scissors_button.addEventListener("click", function() {
-        game("s");
-    })
+    scissors_button.addEventListener("click", () => game("s"));
 }
 
 main();
